@@ -13,38 +13,6 @@ Temporal’s own persistence still uses **PostgreSQL**. MySQL is only for applic
 
 ![Architecture](./docs/architecture.png)
 
-### Block diagram
-
-```mermaid
-flowchart TB
-  subgraph Clients["Clients"]
-    CLI["start / signal CLI<br/>(Go)"]
-    UI["Temporal UI<br/>:8080"]
-    Adminer["Adminer<br/>:8081"]
-  end
-
-  subgraph TemporalStack["Temporal platform"]
-    Temporal["Temporal Server<br/>:7233"]
-    PG[("PostgreSQL<br/>:5432<br/>Temporal persistence")]
-    Temporal --- PG
-  end
-
-  subgraph Workers["Workers"]
-    GoWorker["Go Worker<br/>queue: go-task-queue<br/>GreetingWorkflow<br/>getGreeting / logResult<br/>searchUserMessage / handleFailure"]
-    NestWorker["NestJS Worker<br/>queue: nestjs-task-queue<br/>formatMessage<br/>createInvoice"]
-  end
-
-  subgraph AppData["Application data"]
-    MySQL[("MySQL<br/>:3306<br/>database: invoices")]
-  end
-
-  CLI -->|"start / signal"| Temporal
-  UI -->|"browse workflows"| Temporal
-  Temporal <-->|"poll / complete"| GoWorker
-  Temporal <-->|"poll / complete"| NestWorker
-  NestWorker -->|"INSERT invoice<br/>(after approve)"| MySQL
-  Adminer -->|"browse"| MySQL
-```
 
 
 
