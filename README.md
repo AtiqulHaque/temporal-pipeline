@@ -11,11 +11,9 @@ Temporal’s own persistence still uses **PostgreSQL**. MySQL is only for applic
 
 ## Architecture
 
-
+![Architecture](./docs/architecture.png)
 
 ### Block diagram
-
-
 
 ```mermaid
 flowchart TB
